@@ -13,7 +13,7 @@ Sub RunPipeline()
             FileLocation = "C:\Data\IN" & "\"
             FilesToCheck = Array("nazwapliku.xlsx")
 
-' 2) Wywołuję procedurę przed refresh
+' 2) Wywołuję procedurę przed refresh, sprawdza czy pliki istnieją
 
     CheckInputFiles FileLocation, FilesToCheck
 
