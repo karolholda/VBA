@@ -5,12 +5,12 @@ Sub RunPipeline()
     
 ' 0) Sprawdź wejście
 
-        Dim FileLocation As String
+        Dim FolderPath As String
         Dim FilesToCheck As Variant
 
 ' 1) Wprowadź lokalizację pliku oraz nazwę pliku
     
-            FileLocation = "C:\Data\IN" & "\"
+            FolderPath = "C:\Data\IN\"
             FilesToCheck = Array("nazwapliku.xlsx")
 
 ' 2) Wywołuję procedurę przed refresh, sprawdza czy pliki istnieją
