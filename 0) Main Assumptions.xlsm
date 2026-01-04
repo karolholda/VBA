@@ -3,7 +3,7 @@ Sub RunPipeline()
 
     PrepApplicationState True
     
-    ' 1) Sprawdź wejście
+    ##'' 1) Sprawdź wejście##
     CheckInputFiles "C:\Data\IN\", Array("sales.csv", "rates.xlsx")
     
     ' 2) Odśwież dane / zapytania
