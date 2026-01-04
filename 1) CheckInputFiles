@@ -1,18 +1,18 @@
-Sub CheckInputFiles(ByVal folderPath As String, ByVal requiredFiles As Variant)
+Sub CheckInputFiles(ByVal FolderPath As String, ByVal RequiredFiles As Variant)
 
     Dim i As Long
-    Dim fullPath As String
+    Dim FilePath As String
 
 ' 1) Sprawdź czy folder istnieje
-      If Dir(folderPath, vbDirectory) = "" Then
+      If Dir(FolderPath, vbDirectory) = "" Then
           Err.Raise vbObjectError + 100, , _
               "Folder wejściowy nie istnieje:" & vbCrLf & folderPath
       End If
 
   ' 2) Sprawdź każdy wymagany plik
-      For i = LBound(requiredFiles) To UBound(requiredFiles)
+      For i = LBound(RequiredFiles) To UBound(RequiredFiles)
 
-          fullPath = folderPath & CStr(requiredFiles(i))
+          fullPath = FolderPath & CStr(RequiredFiles(i))
 
           If Dir(fullPath) = "" Then
             Err.Raise vbObjectError + 101, , _
