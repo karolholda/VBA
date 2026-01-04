@@ -9,6 +9,9 @@ Sub CheckInputFiles(ByVal FolderPath As String, ByVal RequiredFiles As Variant)
               "Folder wejściowy nie istnieje:" & vbCrLf & FolderPath
       End If
 
+' Dopnij "\" jeśli brakuje
+    If Right(FolderPath, 1) <> "\" Then FolderPath = FolderPath & "\"
+
   ' 2) Sprawdź każdy wymagany plik
       For i = LBound(RequiredFiles) To UBound(RequiredFiles)
 
