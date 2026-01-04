@@ -4,17 +4,14 @@ Sub RunPipeline()
     PrepApplicationState True
     
 ' 0) Sprawdź wejście
-
         Dim FolderPath As String
         Dim RequiredFiles As Variant
 
 ' 1) Wprowadź lokalizację pliku oraz nazwę pliku
-    
             FolderPath = "C:\Data\IN\"
             RequiredFiles = Array("nazwapliku.xlsx")
 
 ' 2) Wywołuję procedurę przed refresh, sprawdza czy pliki istnieją
-
     CheckInputFiles FolderPath, RequiredFiles
 
 ' 3) Odśwież dane / zapytania
