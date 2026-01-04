@@ -1,0 +1,40 @@
+Sub RunPipeline()
+    On Error GoTo EH
+
+    PrepApplicationState True
+    
+    ' 1) Sprawdź wejście
+    CheckInputFiles "C:\Data\IN\", Array("sales.csv", "rates.xlsx")
+    
+    ' 2) Odśwież dane / zapytania
+    RefreshEverything
+    
+    ' 3) Kontrole jakości
+    If Not DataQualityGate() Then
+        MsgBox "Data Quality: FAIL. Przerywam.", vbCritical
+        GoTo CleanExit
+    End If
+    
+    ' 4) Eksporty
+    Dim outFolder As String
+    outFolder = ThisWorkbook.Path & "\OUT"
+    EnsureFolderExists outFolder
+    
+    Dim pdfPath As String, xlsxPath As String
+    pdfPath = ExportReportPDF(outFolder)
+    xlsxPath = ExportReportXLSX(outFolder)
+    
+    ' 5) Zapis do SharePoint/Teams (najczęściej: folder synchronizowany OneDrive)
+    PublishToSharePointSyncFolder Array(pdfPath, xlsxPath), _
+        "C:\Users\%USERNAME%\OneDrive - Firma\Teams\Raporty\"
+    
+    MsgBox "Gotowe ✅", vbInformation
+
+CleanExit:
+    PrepApplicationState False
+    Exit Sub
+
+EH:
+    PrepApplicationState False
+    MsgBox "Błąd: " & Err.Number & vbCrLf & Err.Description, vbCritical
+End Sub
