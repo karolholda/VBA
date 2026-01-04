@@ -3,19 +3,30 @@ Sub RunPipeline()
 
     PrepApplicationState True
     
-    ##'' 1) Sprawdź wejście##
-    CheckInputFiles "C:\Data\IN\", Array("sales.csv", "rates.xlsx")
+' 0) Sprawdź wejście
+
+        Dim FileLocation As String
+        Dim FilesToCheck As Variant
+
+' 1) Wprowadź lokalizację pliku oraz nazwę pliku
     
-    ' 2) Odśwież dane / zapytania
+            FileLocation = "C:\Data\IN" & "\"
+            FilesToCheck = Array("nazwapliku.xlsx")
+
+' 2) Wywołuję procedurę przed refresh
+
+    CheckInputFiles FileLocation, FilesToCheck
+
+' 3) Odśwież dane / zapytania
     RefreshEverything
     
-    ' 3) Kontrole jakości
+' 3) Kontrole jakości
     If Not DataQualityGate() Then
         MsgBox "Data Quality: FAIL. Przerywam.", vbCritical
         GoTo CleanExit
     End If
     
-    ' 4) Eksporty
+' 4) Eksporty
     Dim outFolder As String
     outFolder = ThisWorkbook.Path & "\OUT"
     EnsureFolderExists outFolder
@@ -24,7 +35,7 @@ Sub RunPipeline()
     pdfPath = ExportReportPDF(outFolder)
     xlsxPath = ExportReportXLSX(outFolder)
     
-    ' 5) Zapis do SharePoint/Teams (najczęściej: folder synchronizowany OneDrive)
+' 5) Zapis do SharePoint/Teams (najczęściej: folder synchronizowany OneDrive)
     PublishToSharePointSyncFolder Array(pdfPath, xlsxPath), _
         "C:\Users\%USERNAME%\OneDrive - Firma\Teams\Raporty\"
     
