@@ -1,19 +1,19 @@
 Sub RefreshEverything()
     On Error GoTo EH
 
-    ' Odśwież wszystko (Power Query, Connections, PivotCaches itd.)
+' Odśwież wszystko (Power Query, Connections, PivotCaches itd.)
     ThisWorkbook.RefreshAll
 
-    ' Pozwól Excelowi przetworzyć kolejkę zdarzeń
+' Pozwól Excelowi przetworzyć kolejkę zdarzeń
     DoEvents
 
-    ' Poczekaj aż zakończą się asynchroniczne zapytania (Power Query)
+' Poczekaj aż zakończą się asynchroniczne zapytania (Power Query)
     Application.CalculateUntilAsyncQueriesDone
 
     Exit Sub
 
 EH:
-    ' Przekaż sensowny błąd do RunPipeline (tam masz EH)
+' Przekaż sensowny błąd do RunPipeline (tam masz EH)
     Err.Raise vbObjectError + 200, , _
         "RefreshEverything: błąd podczas odświeżania danych." & vbCrLf & _
         "Err " & Err.Number & ": " & Err.Description
