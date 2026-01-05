@@ -1,39 +1,42 @@
+'===========================
+' Funkcja: Validate_Ranges
+'===========================
 
+' Sprawdza podstawowe założenia logiczne
 
-
-Private Function Validate_Ranges() As Boolean
-    Dim ws As Worksheet
-    Dim lastRow As Long
-    Dim r As Long
-
-    Set ws = Sheets("Data")
-
-    ' 1) Znajdź ostatni wiersz danych
-    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
-
-    ' 2) Brak danych = FAIL
-    If lastRow < 2 Then
-        Validate_Ranges = False
-        Exit Function
-    End If
-
-    ' 3) Sprawdź zakresy wartości w każdym wierszu
-    For r = 2 To lastRow
-
-        ' A) Kwota nie może być ujemna
-        If ws.Cells(r, "C").Value < 0 Then
+    Private Function Validate_Ranges() As Boolean
+        Dim ws As Worksheet
+        Dim lastRow As Long
+        Dim r As Long
+    
+        Set ws = Sheets("Data")
+    
+' Znajdź ostatni wiersz danych
+        lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    
+' Brak danych = FAIL
+        If lastRow < 2 Then
             Validate_Ranges = False
             Exit Function
         End If
-
-        ' B) Data nie może być z przyszłości
-        If ws.Cells(r, "B").Value > Date Then
-            Validate_Ranges = False
-            Exit Function
-        End If
-
-    Next r
-
-    ' 4) Jeśli wszystkie wartości są w dozwolonym zakresie
-    Validate_Ranges = True
-End Function
+    
+' Sprawdź zakresy wartości w każdym wierszu
+        For r = 2 To lastRow
+    
+' Kwota nie może być ujemna
+            If ws.Cells(r, "C").Value < 0 Then
+                Validate_Ranges = False
+                Exit Function
+            End If
+    
+' Data nie może być z przyszłości
+            If ws.Cells(r, "B").Value > Date Then
+                Validate_Ranges = False
+                Exit Function
+            End If
+    
+        Next r
+    
+' Jeśli wszystkie wartości są w dozwolonym zakresie
+        Validate_Ranges = True
+    End Function
