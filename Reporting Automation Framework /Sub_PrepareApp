@@ -1,17 +1,23 @@
-Private Sub PrepareApp(ByVal startRun As Boolean)
+'===========================
+' Procedura: PrepareApp
+'===========================
 
-    If startRun Then
-        ' TRYB STARTOWY – przygotowanie Excela do automatyzacji
-        Application.ScreenUpdating = False      ' nie odświeżaj ekranu (szybciej)
-        Application.EnableEvents = False        ' nie uruchamiaj zdarzeń (Worksheet_Change itd.)
-        Application.DisplayAlerts = False       ' nie pokazuj alertów systemowych
-        Application.Calculation = xlCalculationManual ' wyłącz automatyczne przeliczanie
-    Else
-        ' TRYB KOŃCOWY – przywrócenie normalnych ustawień
-        Application.ScreenUpdating = True
-        Application.EnableEvents = True
-        Application.DisplayAlerts = True
-        Application.Calculation = xlCalculationAutomatic
-    End If
+' Procedura przyspieszająca i stabilizująca Excela (brak migania, brak pop up, brak eventów)
 
-End Sub
+    Private Sub PrepareApp(ByVal startRun As Boolean)
+    
+        If startRun Then
+' TRYB STARTOWY – przygotowanie Excela do automatyzacji
+            Application.ScreenUpdating = False      ' nie odświeżaj ekranu (szybciej)
+            Application.EnableEvents = False        ' nie uruchamiaj zdarzeń (Worksheet_Change itd.)
+            Application.DisplayAlerts = False       ' nie pokazuj alertów systemowych
+            Application.Calculation = xlCalculationManual ' wyłącz automatyczne przeliczanie
+        Else
+' TRYB KOŃCOWY – przywrócenie normalnych ustawień
+            Application.ScreenUpdating = True
+            Application.EnableEvents = True
+            Application.DisplayAlerts = True
+            Application.Calculation = xlCalculationAutomatic
+        End If
+    
+    End Sub
