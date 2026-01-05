@@ -11,20 +11,20 @@
     
         Set ws = Sheets("Data")
     
-        ' 1) Znajdź ostatni wiersz z danymi w kolumnie A
+' Znajdź ostatni wiersz z danymi w kolumnie A
         lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
     
-        ' 2) Jeśli brak danych (tylko nagłówek) → FAIL
+' Jeśli brak danych (tylko nagłówek) → FAIL
         If lastRow < 2 Then
             Validate_UniqueKeys = False
             Exit Function
         End If
     
-        ' 3) Zakres kluczy (bez nagłówka)
+' Zakres kluczy (bez nagłówka)
         Set rng = ws.Range("A2:A" & lastRow)
     
-        ' 4) Sprawdzenie unikalności:
-        '    liczba niepustych = liczba unikalnych ?
+' Sprawdzenie unikalności:
+'   liczba niepustych = liczba unikalnych ?
         Validate_UniqueKeys = _
             Application.WorksheetFunction.CountA(rng) = _
             Application.WorksheetFunction.CountIf(rng, "<>")
