@@ -8,8 +8,8 @@
     
         If startRun Then
 ' TRYB STARTOWY – przygotowanie Excela do automatyzacji
-            Application.ScreenUpdating = False      ' nie odświeżaj ekranu (szybciej)
-            Application.EnableEvents = False        ' nie uruchamiaj zdarzeń (Worksheet_Change itd.)
+            Application.ScreenUpdating = False      ' nie odświeżaj ekranu 
+            Application.EnableEvents = False        ' nie uruchamiaj zdarzeń
             Application.DisplayAlerts = False       ' nie pokazuj alertów systemowych
             Application.Calculation = xlCalculationManual ' wyłącz automatyczne przeliczanie
         Else
