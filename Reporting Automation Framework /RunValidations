@@ -1,0 +1,37 @@
+'===========================
+' Funkcja: RunValidations
+'===========================
+
+' RunValidations uruchamia wszystkie kontrole jakości danych, zatrzymuje pipeline przy pierwszym błędzie i 
+  informuje log, czy dane nadają się do eksportu.
+
+    Private Function RunValidations() As Boolean
+        On Error GoTo ErrHandler
+    
+        LogInfo "RunValidations", "Validation started", ""
+    
+        ' 1) Przykład walidacji: czy arkusz Data zawiera dane
+        If Not Validate_DataNotEmpty() Then
+            LogError "RunValidations", "Validation failed", "Data sheet is empty"
+            RunValidations = False
+            Exit Function
+        End If
+    
+        ' 2) Przykład walidacji: brak pustych kluczowych wartości (np. ID / VIN)
+        If Not Validate_NoBlanksInKeyColumn() Then
+            LogError "RunValidations", "Validation failed", "Blank values in key column"
+            RunValidations = False
+            Exit Function
+        End If
+    
+        ' 3) Jeśli wszystkie walidacje przeszły
+        LogInfo "RunValidations", "All validations passed", ""
+        RunValidations = True
+        Exit Function
+    
+    ErrHandler:
+        LogError "RunValidations", "Unhandled validation error", _
+                 "Err " & Err.Number & ": " & Err.Description
+        RunValidations = False
+    End Function
+
