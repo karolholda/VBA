@@ -1,0 +1,23 @@
+Function ExportReportXLSX(ByVal OutFolder As String) As String
+
+  Dim FilePath As String
+  Dim wbTemp As Workbook
+
+' Upewniam sie, że folder kończy się na "\"
+    If Right(FilePath, 1) <> "\" Then OutFolder = OutFolder & "\"
+  
+' Zbuduj nazwę pliku z datą i godziną
+  FilePath = OutFolder & Report_" & Format(Now, "yyyy-dd-hhmmss") & ".xlsx"
+
+' Skopiuj arkusz raportu do nowego skoroszytu
+    Sheets("Report").Copy
+    Set wbTemp = ActiveWorkbook
+
+' Zapisz jako XLSX (bez makr)
+  wbTemp.SaveaS Filename:= FilePath, FileFormat:=xlOpenXMLWorkbook
+  wbTemp.Close SaveChanges:= False
+  
+' Zwróć ściezkę do pliku
+  ExportReportXLSX = FilePath
+
+End Function

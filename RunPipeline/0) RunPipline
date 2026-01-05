@@ -1,0 +1,49 @@
+Sub RunPipeline()
+    On Error GoTo EH
+
+    PrepApplicationState True
+    
+' Sprawdź wejście
+            Dim FolderPath As String
+            Dim RequiredFiles As Variant
+    
+' Wprowadź lokalizację pliku oraz nazwę pliku
+                FolderPath = "C:\Data\IN\"
+                RequiredFiles = Array("nazwapliku.xlsx")
+
+' 1) Wywołuję procedurę przed refresh, sprawdza czy pliki istnieją
+    CheckInputFiles FolderPath, RequiredFiles
+
+' 2) Odśwież dane / zapytania
+    RefreshEverything
+    
+' 3) Kontrole jakości
+    If Not DataQualityGate() Then
+        MsgBox "Data Quality: FAIL. Przerywam.", vbCritical
+        GoTo CleanExit
+    End If
+    
+' 4) Sprawdzenie, czy Folder wyjścia istnieje + Eksporty do PDF
+    Dim OutFolder As String
+    OutFolder = ThisWorkbook.Path & "\OUT"
+    EnsureFolderExists OutFolder
+
+' 5) Eksport pliku do PDF oraz xlsx
+    Dim pdfPath As String, xlsxPath As String
+    pdfPath = ExportReportPDF(OutFolder)
+    xlsxPath = ExportReportXLSX(OutFolder)
+    
+' 6) Zapis do SharePoint/Teams (najczęściej: folder synchronizowany OneDrive)
+    PublishToSharePointSyncFolder Array(pdfPath, xlsxPath), _
+        "C:\Users\%USERNAME%\OneDrive - Firma\Teams\Raporty\"
+    
+    MsgBox "Gotowe ✅", vbInformation
+
+CleanExit:
+    PrepApplicationState False
+    Exit Sub
+
+EH:
+    PrepApplicationState False
+    MsgBox "Błąd: " & Err.Number & vbCrLf & Err.Description, vbCritical
+End Sub
