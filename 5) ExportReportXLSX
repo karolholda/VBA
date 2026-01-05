@@ -13,7 +13,9 @@ Function ExportReportXLSX(ByVal OutFolder As String) As String
     Sheets("Report").Copy
     Set wbTemp = ActiveWorkbook
 
-
+' Zapisz jako XLSX (bez makr)
+  wbTemp.SaveaS Filename:= FilePath, FileFormat:=xlOpenXMLWorkbook
+  wbTemp.Close SaveChanges:= False
   
 ' Zwróć ściezkę do pliku
   ExportReportXLSX = FilePath
