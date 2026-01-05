@@ -2,7 +2,7 @@
 ' Funkcja: UniqueKeys
 '===========================
 
-' Sprawdzanie unikalnych kluczy
+' Sprawdza, czy w kolumnie kluczy nie występują duplikaty i chroni pipeline przed błędnymi, zdublowanymi rekordami.
 
     Private Function Validate_UniqueKeys() As Boolean
         Dim ws As Worksheet
@@ -23,10 +23,8 @@
 ' Zakres kluczy (bez nagłówka)
         Set rng = ws.Range("A2:A" & lastRow)
     
-' Sprawdzenie unikalności:
+' Sprawdzenie unikalności, duplikatów:
 '   liczba niepustych = liczba unikalnych ?
-        Validate_UniqueKeys = _
-            Application.WorksheetFunction.CountA(rng) = _
-            Application.WorksheetFunction.CountIf(rng, "<>")
+        Validate_UniqueKeys = Application.WorksheetFunction.CountA(rng) = Application.WorksheetFunction.CountIf(rng, "<>")
     
     End Function
