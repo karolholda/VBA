@@ -1,0 +1,6 @@
+Function ExportReportPDF(ByVal OutFolder As String) As String
+
+Dim FilePath as String
+
+' Upewniam sie, że folder kończy się na "\"
+  If Right(FilePath, 1) <> "\" Then Out
