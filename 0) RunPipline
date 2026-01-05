@@ -23,11 +23,12 @@ Sub RunPipeline()
         GoTo CleanExit
     End If
     
-' 4) Eksporty do PDF
+' 4) Sprawdzenie, czy Folder wyjścia istnieje + Eksporty do PDF
     Dim OutFolder As String
     OutFolder = ThisWorkbook.Path & "\OUT"
     EnsureFolderExists OutFolder
-    
+
+' 5) Eksport pliku do PDF oraz xlsx
     Dim pdfPath As String, xlsxPath As String
     pdfPath = ExportReportPDF(OutFolder)
     xlsxPath = ExportReportXLSX(OutFolder)
