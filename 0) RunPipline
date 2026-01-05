@@ -24,9 +24,9 @@ Sub RunPipeline()
     End If
     
 ' 4) Eksporty
-    Dim outFolder As String
-    outFolder = ThisWorkbook.Path & "\OUT"
-    EnsureFolderExists outFolder
+    Dim OutFolder As String
+    OutFolder = ThisWorkbook.Path & "\OUT"
+    EnsureFolderExists OutFolder
     
     Dim pdfPath As String, xlsxPath As String
     pdfPath = ExportReportPDF(outFolder)
