@@ -1,0 +1,14 @@
+Sub EnsureFolderExists (ByVal FolderPath As String)
+
+' Sprawdź, czy na końcu ścieżki jest "\"
+      If Right(FolderPath, 1) = "\" Then    
+' Jeśli na końcu jest "\", usuń ostatni znak
+' Bierze cały tekst oprócz ostatniego znaku
+        FolderPath = Left(FolderPath, Len(FolderPath) -1)
+        End If      
+' Sprawdź, czy folder o ścieżce FolderPath istnieje.
+        If Dir(FolderPath, vbDirectory) = "" Then 
+' Jeśli folder nie istnieje, utwórz go.
+          MkDir FolderPath
+        End If
+      End Sub
