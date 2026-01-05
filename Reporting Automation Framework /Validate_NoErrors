@@ -1,0 +1,28 @@
+
+
+
+
+Private Function Validate_NoErrors() As Boolean
+    Dim ws As Worksheet
+    Dim rng As Range
+    Dim cell As Range
+
+    Set ws = Sheets("Data")
+
+    ' 1) Określ obszar danych do sprawdzenia
+    Set rng = ws.UsedRange
+
+    ' 2) Przejdź przez każdą komórkę w obszarze
+    For Each cell In rng.Cells
+
+        ' 3) Sprawdź, czy komórka zawiera błąd Excela
+        If IsError(cell.Value) Then
+            Validate_NoErrors = False
+            Exit Function
+        End If
+
+    Next cell
+
+    ' 4) Jeśli nie znaleziono żadnych błędów
+    Validate_NoErrors = True
+End Function
