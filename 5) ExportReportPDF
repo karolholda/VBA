@@ -1,6 +1,23 @@
 Function ExportReportPDF(ByVal OutFolder As String) As String
 
-Dim FilePath as String
+  Dim FilePath as String
 
-' Upewniam sie, że folder kończy się na "\"
-  If Right(FilePath, 1) <> "\" Then Out
+  ' Upewniam sie, że folder kończy się na "\"
+    If Right(FilePath, 1) <> "\" Then OutFolder = OutFolder & "\"
+  
+  ' Zbuduj nazwę pliku z datą i godziną
+  FilePath = OutFolder & Report_" & Format(Now, "yyyy-dd-hhmmss") & ".pdf"
+  
+  ' Eksport arkusza "Report" do PDF
+      Sheets("Report").ExportAsFixedFormat _
+          Type:=xlTypePDF, _
+          Filename:=FilePath, _
+          Quality:=xlQualityStandard, _
+          IncludeDocProperties:=True, _
+          IgnorePrintAreas:=False, _
+          OpenAfterPublish:=False
+  
+  ' Zwróć ściezkę do pliku
+  ExportReportPDF = FilePath
+
+End Function
