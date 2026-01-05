@@ -1,0 +1,15 @@
+'===========================
+' Funkcja: NoBlankKeys
+'===========================
+
+' Test sprawdzający, czy są puste klucze
+
+    Private Function Validate_NoBlankKeys() As Boolean
+        Dim lastRow As Long
+        Dim DataSheetName As String
+        DataSheetName =  "Data"
+        lastRow = Sheets("Data").Cells(Rows.Count, "A").End(xlUp).Row
+    
+        Validate_NoBlankKeys = Application.WorksheetFunction.CountBlank(Sheets("Data").Range("A2:A" & lastRow)) = 0
+
+    End Function
