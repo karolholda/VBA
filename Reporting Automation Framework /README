@@ -1,4 +1,5 @@
-modMain = Prepare 
-modLog
-modValidate
-modExport
+modMain = Prepare (Ustawienia, wyłączenie screen updateing)
+modValidate = Walidacje
+modExport = Eksport danych
+modLog = Logi + czyszczenie
+
