@@ -3,6 +3,12 @@ Run_All
  ├─ RefreshAllData
  ├─ RunValidations
  │    └─ (testy DQ)
+ │      ├─ DataNotEmpty
+ │      ├─ NoBlankKeys
+ │      ├─ UniqueKeys
+ │      ├─ DataTypes
+ │      ├─ Ranges
+ │      ├─ NoErrors
  ├─ ExportPack
  │    ├─ EnsureFolderExists
  │    ├─ ExportReportPDF
