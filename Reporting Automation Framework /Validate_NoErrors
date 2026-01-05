@@ -11,13 +11,13 @@
     
         Set ws = Sheets("Data")
     
-        ' 1) Określ obszar danych do sprawdzenia
+' Określ obszar danych do sprawdzenia
         Set rng = ws.UsedRange
     
-        ' 2) Przejdź przez każdą komórkę w obszarze
+' Przejdź przez każdą komórkę w obszarze
         For Each cell In rng.Cells
     
-            ' 3) Sprawdź, czy komórka zawiera błąd Excela
+' Sprawdź, czy komórka zawiera błąd Excela
             If IsError(cell.Value) Then
                 Validate_NoErrors = False
                 Exit Function
@@ -25,6 +25,6 @@
     
         Next cell
     
-        ' 4) Jeśli nie znaleziono żadnych błędów
+' Jeśli nie znaleziono żadnych błędów
         Validate_NoErrors = True
     End Function
