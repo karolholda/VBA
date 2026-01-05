@@ -33,7 +33,7 @@ Sub RunPipeline()
     pdfPath = ExportReportPDF(OutFolder)
     xlsxPath = ExportReportXLSX(OutFolder)
     
-' 5) Zapis do SharePoint/Teams (najczęściej: folder synchronizowany OneDrive)
+' 6) Zapis do SharePoint/Teams (najczęściej: folder synchronizowany OneDrive)
     PublishToSharePointSyncFolder Array(pdfPath, xlsxPath), _
         "C:\Users\%USERNAME%\OneDrive - Firma\Teams\Raporty\"
     
