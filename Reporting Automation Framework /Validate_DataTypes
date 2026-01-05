@@ -1,46 +1,48 @@
+'===========================
+' Funkcja: DataTypes
+'===========================
 
+' Sprawdza, czy dane mają oczekiwane typy
 
-
-
-Private Function Validate_DataTypes() As Boolean
-    Dim ws As Worksheet
-    Dim lastRow As Long
-    Dim r As Long
-
-    Set ws = Sheets("Data")
-
-    ' 1) Znajdź ostatni wiersz danych
-    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
-
-    ' 2) Brak danych = FAIL
-    If lastRow < 2 Then
-        Validate_DataTypes = False
-        Exit Function
-    End If
-
-    ' 3) Sprawdź typy danych w każdym wierszu
-    For r = 2 To lastRow
-
-        ' A: klucz → musi być tekst
-        If Not VarType(ws.Cells(r, "A").Value) = vbString Then
+    Private Function Validate_DataTypes() As Boolean
+        Dim ws As Worksheet
+        Dim lastRow As Long
+        Dim r As Long
+    
+        Set ws = Sheets("Data")
+    
+        ' 1) Znajdź ostatni wiersz danych
+        lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    
+        ' 2) Brak danych = FAIL
+        If lastRow < 2 Then
             Validate_DataTypes = False
             Exit Function
         End If
-
-        ' B: data → musi być datą
-        If Not IsDate(ws.Cells(r, "B").Value) Then
-            Validate_DataTypes = False
-            Exit Function
-        End If
-
-        ' C: liczba → musi być liczbą
-        If Not IsNumeric(ws.Cells(r, "C").Value) Then
-            Validate_DataTypes = False
-            Exit Function
-        End If
-
-    Next r
-
-    ' 4) Jeśli wszystko OK
-    Validate_DataTypes = True
-End Function
+    
+        ' 3) Sprawdź typy danych w każdym wierszu
+        For r = 2 To lastRow
+    
+            ' A: klucz → musi być tekst
+            If Not VarType(ws.Cells(r, "A").Value) = vbString Then
+                Validate_DataTypes = False
+                Exit Function
+            End If
+    
+            ' B: data → musi być datą
+            If Not IsDate(ws.Cells(r, "B").Value) Then
+                Validate_DataTypes = False
+                Exit Function
+            End If
+    
+            ' C: liczba → musi być liczbą
+            If Not IsNumeric(ws.Cells(r, "C").Value) Then
+                Validate_DataTypes = False
+                Exit Function
+            End If
+    
+        Next r
+    
+        ' 4) Jeśli wszystko OK
+        Validate_DataTypes = True
+    End Function
