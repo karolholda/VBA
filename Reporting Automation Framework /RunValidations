@@ -10,21 +10,21 @@
     
         LogInfo "RunValidations", "Validation started", ""
     
-        ' 1) Przykład walidacji: czy arkusz Data zawiera dane
+' Przykład walidacji: czy arkusz Data zawiera dane
         If Not Validate_DataNotEmpty() Then
             LogError "RunValidations", "Validation failed", "Data sheet is empty"
             RunValidations = False
             Exit Function
         End If
     
-        ' 2) Przykład walidacji: brak pustych kluczowych wartości (np. ID / VIN)
+' Przykład walidacji: brak pustych kluczowych wartości (np. ID / VIN)
         If Not Validate_NoBlanksInKeyColumn() Then
             LogError "RunValidations", "Validation failed", "Blank values in key column"
             RunValidations = False
             Exit Function
         End If
     
-        ' 3) Jeśli wszystkie walidacje przeszły
+' Jeśli wszystkie walidacje przeszły
         LogInfo "RunValidations", "All validations passed", ""
         RunValidations = True
         Exit Function
