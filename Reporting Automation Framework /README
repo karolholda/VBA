@@ -1,4 +1,4 @@
-modMain
+modMain = Prepare 
 modLog
 modValidate
 modExport
