@@ -30,7 +30,7 @@ loguje czas wykonania i zwraca informację, czy refresh się udał. Funkcja bo B
         Exit Function
     
     ErrHandler:
-        ' 6) Obsługa błędu refreshu
+' Obsługa błędu refreshu
         LogError "RefreshAllData", "Refresh failed", _
                  "Err " & Err.Number & ": " & Err.Description
     
