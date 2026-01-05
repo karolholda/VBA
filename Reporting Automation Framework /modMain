@@ -1,0 +1,90 @@
+'===========================
+' Module: modMain
+'===========================
+Option Explicit   ' 0) Wymusza deklarowanie wszystkich zmiennych (chroni przed literówkami typu ActiceCell)
+
+Public Sub Run_All()
+    On Error GoTo ErrHandler   ' 1) Jeśli gdziekolwiek w tej procedurze wystąpi błąd -> skocz do ErrHandler
+
+    PrepareApp True            ' 2) Ustaw Excela w tryb „pipeline” (szybciej i stabilniej: wyłącza screen updating itd.)
+    LogInfo "Run_All", "START", ""   ' 3) Zapisz do logu start procesu (LogInfo to Twoja funkcja logująca)
+
+    '-------------------------
+    ' 1) REFRESH (odśwież dane)
+    '-------------------------
+    If Not RefreshAllData() Then      ' 4) Uruchom odświeżanie danych; jeśli zwróci False -> refresh się nie udał
+        LogError "Run_All", "Refresh failed -> STOP", ""  ' 5) Zapisz do logu błąd etapu refresh
+        GoTo CleanExit                ' 6) Przejdź do kontrolowanego wyjścia (posprzątaj stan aplikacji)
+    End If
+
+    '-------------------------
+    ' 2) VALIDATE (kontrola jakości)
+    '-------------------------
+    If Not RunValidations() Then      ' 7) Uruchom walidacje jakości danych; jeśli False -> dane nie przechodzą kontroli
+        LogError "Run_All", "Validation failed -> STOP (no export)", "" ' 8) Zaloguj powód zatrzymania
+        MsgBox "Validation failed. Export aborted. Check VBA_Log sheet.", vbExclamation ' 9) Pokaż użytkownikowi info
+        GoTo CleanExit                ' 10) Wyjdź kontrolowanie (bez eksportu)
+    End If
+
+    '-------------------------
+    ' 3) EXPORT (generowanie plików)
+    '-------------------------
+    If Not ExportPack() Then          ' 11) Uruchom eksport (PDF/XLSX/etc.); jeśli False -> eksport nieudany
+        LogError "Run_All", "Export failed", ""           ' 12) Zaloguj błąd eksportu
+        GoTo CleanExit                ' 13) Wyjdź kontrolowanie
+    End If
+
+    LogInfo "Run_All", "DONE", "All steps completed successfully." ' 14) Zaloguj sukces pipeline
+
+CleanExit:
+    PrepareApp False           ' 15) Przywróć Excela do normalnego stanu (włącz ekran, eventy, auto-calc)
+    Exit Sub                   ' 16) Wyjdź z procedury (ważne, żeby NIE wpaść do ErrHandler)
+
+ErrHandler:
+    ' 17) Ten blok wykona się tylko, jeśli wystąpi "nieobsłużony" błąd w Run_All
+    LogError "Run_All", "Unhandled error", "Err " & Err.Number & ": " & Err.Description ' 18) Zapisz szczegóły błędu
+    PrepareApp False           ' 19) Zawsze sprzątnij stan Excela nawet po błędzie
+    MsgBox "Macro failed: " & Err.Description & vbCrLf & "See VBA_Log sheet.", vbCritical ' 20) Pokaż komunikat krytyczny
+End Sub
+
+Private Sub PrepareApp(ByVal startRun As Boolean)
+    ' 21) Funkcja pomocnicza: przełącza Excela w tryb „szybko” na czas pipeline i potem przywraca ustawienia
+
+    If startRun Then
+        ' 22) START pipeline: przyspieszenie i stabilność
+        Application.ScreenUpdating = False   ' 23) Nie odświeżaj ekranu -> szybciej
+        Application.EnableEvents = False     ' 24) Nie wywołuj zdarzeń (np. Worksheet_Change) -> mniej „niespodzianek”
+        Application.DisplayAlerts = False    ' 25) Nie pokazuj popupów typu "czy nadpisać" -> automatyzacja bez przerw
+        Application.Calculation = xlCalculationManual ' 26) Nie przeliczaj po każdej zmianie -> szybciej
+    Else
+        ' 27) KONIEC pipeline: przywróć ustawienia użytkownika
+        Application.ScreenUpdating = True
+        Application.EnableEvents = True
+        Application.DisplayAlerts = True
+        Application.Calculation = xlCalculationAutomatic
+    End If
+End Sub
+
+Private Function RefreshAllData() As Boolean
+    On Error GoTo ErrHandler      ' 28) Jeśli w tej funkcji wystąpi błąd -> przejdź do ErrHandler i zwróć False
+    Dim t0 As Double
+    t0 = Timer                    ' 29) Zapisz czas startu (Timer = sekundy od północy) do pomiaru czasu trwania
+
+    LogInfo "RefreshAllData", "Refreshing workbook connections/queries...", "" ' 30) Zaloguj start refreshu
+
+    ThisWorkbook.RefreshAll        ' 31) Odśwież wszystkie połączenia/zapytania (Power Query, connections, pivots itd.)
+
+    ' 32) Poczekaj aż zakończą się asynchroniczne zapytania (kluczowe dla Power Query)
+    Application.CalculateUntilAsyncQueriesDone
+
+    ' 33) Zaloguj zakończenie i czas trwania odświeżania
+    LogInfo "RefreshAllData", "Refresh completed", "DurationSec=" & Format(Timer - t0, "0.0")
+
+    RefreshAllData = True          ' 34) Zwróć True = refresh zakończony sukcesem
+    Exit Function                  ' 35) Wyjdź z funkcji (żeby nie wpaść do ErrHandler)
+
+ErrHandler:
+    ' 36) Tu trafiamy, gdy refresh wywali błąd (np. brak pliku źródłowego, błąd połączenia, itp.)
+    LogError "RefreshAllData", "Refresh error", "Err " & Err.Number & ": " & Err.Description ' 37) Zaloguj błąd
+    RefreshAllData = False         ' 38) Zwróć False = refresh nieudany (Run_All przerwie pipeline)
+End Function
