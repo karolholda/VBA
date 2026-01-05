@@ -1,4 +1,4 @@
-Sub PublishToSharePointSyncFolder(ByVal files As Variant, ByVal targetFolder As String)
+Sub PublishToSharePointSyncFolder(ByVal files As Variant, ByVal OutFolder As String)
     On Error GoTo EH
 
     Dim i As Long
@@ -6,12 +6,12 @@ Sub PublishToSharePointSyncFolder(ByVal files As Variant, ByVal targetFolder As 
     Dim dst As String
 
 ' Upewnij się, że folder docelowy kończy się "\"
-    If Right(targetFolder, 1) <> "\" Then targetFolder = targetFolder & "\"
+    If Right(OutFolder, 1) <> "\" Then OutFolder = OutFolder & "\"
 
 ' Sprawdź czy folder docelowy istnieje
-    If Dir(targetFolder, vbDirectory) = "" Then
+    If Dir(OutFolder, vbDirectory) = "" Then
         Err.Raise vbObjectError + 300, , _
-            "Folder docelowy (SharePoint/Teams sync) nie istnieje:" & vbCrLf & targetFolder
+            "Folder docelowy (SharePoint/Teams sync) nie istnieje:" & vbCrLf & OutFolder
     End If
 
 ' Skopiuj każdy plik do folderu docelowego
@@ -19,19 +19,19 @@ Sub PublishToSharePointSyncFolder(ByVal files As Variant, ByVal targetFolder As 
 
         src = CStr(files(i))
 
-  ' Sprawdź czy plik źródłowy istnieje
+' Sprawdź czy plik źródłowy istnieje
         If Dir(src) = "" Then
             Err.Raise vbObjectError + 301, , _
                 "Nie znaleziono pliku do publikacji:" & vbCrLf & src
         End If
 
-  ' Zbuduj ścieżkę docelową: folder + nazwa pliku
-        dst = targetFolder & Dir(src)
+' Zbuduj ścieżkę docelową: folder + nazwa pliku
+        dst = OutFolder & Dir(src)
 
-  ' Nadpisz jeśli istnieje (opcjonalnie: usuń stare)
+' Nadpisz plik jeśli już istnieje
         If Dir(dst) <> "" Then Kill dst
 
-  ' Kopiuj plik
+' Skopiuj plik
         FileCopy src, dst
 
     Next i
