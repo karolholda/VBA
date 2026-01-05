@@ -8,25 +8,24 @@ loguje czas wykonania i zwraca informację, czy refresh się udał. Funkcja bo B
 
     Private Function RefreshAllData() As Boolean
         On Error GoTo ErrHandler
-    
-        Dim t0 As Double
-        t0 = Timer   ' 1) zapamiętaj czas startu (do pomiaru długości refreshu)
+
+' zapamiętaj czas startu (do pomiaru długości refreshu)
+        Dim t As Double
+        t = Timer   
     
         LogInfo "RefreshAllData", "Refresh started", ""
     
-        ' 2) Odśwież wszystkie źródła danych w skoroszycie
-        '    (Power Query, Connections, PivotCaches itp.)
+' Odśwież wszystkie źródła danych w skoroszycie (Power Query, Connections, PivotCaches itp.)
         ThisWorkbook.RefreshAll
     
-        ' 3) Poczekaj, aż zakończą się zapytania asynchroniczne
-        '    (kluczowe dla Power Query)
+' Poczekaj, aż zakończą się zapytania asynchroniczne (kluczowe dla Power Query)
         Application.CalculateUntilAsyncQueriesDone
     
-        ' 4) Log zakończenia z czasem trwania
+' Log zakończenia z czasem trwania
         LogInfo "RefreshAllData", "Refresh completed", _
-                "DurationSec=" & Format(Timer - t0, "0.0")
+                "DurationSec=" & Format(Timer - t, "0.0")
     
-        ' 5) Jeśli dotarliśmy tutaj – wszystko się udało
+' Jeśli dotarliśmy tutaj – wszystko się udało
         RefreshAllData = True
         Exit Function
     
