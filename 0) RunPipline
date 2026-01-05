@@ -23,14 +23,14 @@ Sub RunPipeline()
         GoTo CleanExit
     End If
     
-' 4) Eksporty
+' 4) Eksporty do PDF
     Dim OutFolder As String
     OutFolder = ThisWorkbook.Path & "\OUT"
     EnsureFolderExists OutFolder
     
     Dim pdfPath As String, xlsxPath As String
-    pdfPath = ExportReportPDF(outFolder)
-    xlsxPath = ExportReportXLSX(outFolder)
+    pdfPath = ExportReportPDF(OutFolder)
+    xlsxPath = ExportReportXLSX(OutFolder)
     
 ' 5) Zapis do SharePoint/Teams (najczęściej: folder synchronizowany OneDrive)
     PublishToSharePointSyncFolder Array(pdfPath, xlsxPath), _
