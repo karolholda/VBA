@@ -1,3 +1,16 @@
+Run_All
+ ├─ PrepareApp
+ ├─ RefreshAllData
+ ├─ RunValidations
+ │    └─ (testy DQ)
+ ├─ ExportPack
+ │    ├─ EnsureFolderExists
+ │    ├─ ExportReportPDF
+ │    ├─ ExportReportXLSX
+ │    └─ PublishToSharePointSyncFolder
+ ├─ LogInfo
+ └─ LogError
+
 modMain = Prepare (Ustawienia, wyłączenie screen updateing)
 modValidate = Walidacje
 modExport = Eksport danych
