@@ -10,22 +10,49 @@
     
         LogInfo "RunValidations", "Validation started", ""
     
-' Przykład walidacji: czy arkusz Data zawiera dane
+' Dane nie są puste
         If Not Validate_DataNotEmpty() Then
-            LogError "RunValidations", "Validation failed", "Data sheet is empty"
+            LogError "RunValidations", "DataNotEmpty FAILED", ""
             RunValidations = False
             Exit Function
         End If
     
-' Przykład walidacji: brak pustych kluczowych wartości (np. ID / VIN)
-        If Not Validate_NoBlanksInKeyColumn() Then
-            LogError "RunValidations", "Validation failed", "Blank values in key column"
+' Brak pustych kluczy
+        If Not Validate_NoBlankKeys() Then
+            LogError "RunValidations", "NoBlankKeys FAILED", ""
             RunValidations = False
             Exit Function
         End If
     
-' Jeśli wszystkie walidacje przeszły
-        LogInfo "RunValidations", "All validations passed", ""
+' Klucze unikalne
+        If Not Validate_UniqueKeys() Then
+            LogError "RunValidations", "UniqueKeys FAILED", ""
+            RunValidations = False
+            Exit Function
+        End If
+    
+' Poprawne typy danych
+        If Not Validate_DataTypes() Then
+            LogError "RunValidations", "DataTypes FAILED", ""
+            RunValidations = False
+            Exit Function
+        End If
+    
+' Zakresy wartości
+        If Not Validate_Ranges() Then
+            LogError "RunValidations", "Ranges FAILED", ""
+            RunValidations = False
+            Exit Function
+        End If
+    
+' Brak błędów Excelowych
+        If Not Validate_NoErrors() Then
+            LogError "RunValidations", "NoErrors FAILED", ""
+            RunValidations = False
+            Exit Function
+        End If
+    
+        LogInfo "RunValidations", "All validations PASSED", ""
         RunValidations = True
         Exit Function
     
@@ -34,4 +61,6 @@
                  "Err " & Err.Number & ": " & Err.Description
         RunValidations = False
     End Function
+
+
 
