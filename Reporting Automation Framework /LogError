@@ -1,0 +1,36 @@
+'===========================
+' Funkcja: LogError
+'===========================
+
+' LogError zapisuje informacyjny wpis błędów do arkusza logów (VBA_log), dodając czas zdarzenia, nazwę procedury, szczeóły wydarzenia
+
+    Sub LogError(ByVal procName As String, ByVal message As String, ByVal details As String)
+    
+      Dim ws As Worksheet
+      Dim nextRow As Long
+    
+    ' Sprawdzenie czy arkusz logów istnieje, a jesli nie to ma się utworzyć
+      On Error Resume Next
+      Set ws = ThisWorkbook.Worksheets("VBA_log")
+      On Error GoTo 0
+    
+        If ws Is Nothing Then 
+          Set ws = ThisWorkbook.Worksheets.Add
+          ws.Name = "VBA_log"
+    
+    ' Nagłówki logu
+          ws.Range("A1:D1").Value = Array("Timestamp", "Level", "Procedure", "Message")
+          ws.Rows(1).Font.Bold = True
+        End If
+    
+    ' Znajdź pierwszy wolny wiersz
+      nextRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row + 1
+    
+    ' Zapisz wpis info logu
+      with ws
+        .Cells(nextRow, 1).Value = Now
+        .Cells(nextRow, 2).Value = "Info"
+        .Cells(nextRow, 3).Value = procName
+        .Cells(nextRow, 3).Value = message & IIf(details <> "", " | " & details, "")
+        
+    End Sub
