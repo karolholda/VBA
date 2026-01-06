@@ -31,6 +31,6 @@
         .Cells(nextRow, 1).Value = Now
         .Cells(nextRow, 2).Value = "Info"
         .Cells(nextRow, 3).Value = procName
-        .Cells(nextRow, 3).Value = message & IIf(details <> "", " | " & details, "")
+        .Cells(nextRow, 4).Value = message & IIf(details <> "", " | " & details, "")
         
     End Sub
