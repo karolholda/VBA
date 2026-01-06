@@ -29,8 +29,9 @@ Public Sub Run_All()
     Dim requiredFiles As Variant
 
     inputFolder = INPUT_FOLDER
-    requiredFiles = Array(INPUT_FILE_1)
-    
+    requiredFiles = Array(INPUT_FILE_1)    ' jeśli więcej plików: 
+                                           ' requiredFiles = Array(INPUT_FILE_1, "drugi.csv", "trzeci.xlsx")
+
     CheckInputFiles inputFolder, requiredFiles
     LogInfo "Run_All", "Input check passed", "Folder=" & inputFolder
 
