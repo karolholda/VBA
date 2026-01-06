@@ -1,30 +1,37 @@
 '===========================
-' Funkcja: UniqueKeys
+' Funkcja: Validate_UniqueKeys
 '===========================
-
-' Sprawdza, czy w kolumnie kluczy nie występują duplikaty i chroni pipeline przed błędnymi, zdublowanymi rekordami.
+' Sprawdza, czy w kolumnie kluczy nie występują duplikaty
 
     Private Function Validate_UniqueKeys() As Boolean
+
         Dim ws As Worksheet
         Dim lastRow As Long
         Dim rng As Range
+        Dim c As Range
     
-        Set ws = Sheets("Data")
+        Set ws = ThisWorkbook.Worksheets(DATA_SHEET)
     
-' Znajdź ostatni wiersz z danymi w kolumnie A
-        lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+' Ostatni wiersz danych w kolumnie klucza
+        lastRow = ws.Cells(ws.Rows.Count, KEY_COL).End(xlUp).Row
     
-' Jeśli brak danych (tylko nagłówek) → FAIL
-        If lastRow < 2 Then
+' Jeśli brak danych (tylko nagłówek)
+        If lastRow <= HEADER_ROW Then
             Validate_UniqueKeys = False
             Exit Function
         End If
     
 ' Zakres kluczy (bez nagłówka)
-        Set rng = ws.Range("A2:A" & lastRow)
+        Set rng = ws.Range(KEY_COL & (HEADER_ROW + 1) & ":" & KEY_COL & lastRow)
     
-' Sprawdzenie unikalności, duplikatów:
-'   liczba niepustych = liczba unikalnych ?
-        Validate_UniqueKeys = Application.WorksheetFunction.CountA(rng) = Application.WorksheetFunction.CountIf(rng, "<>")
+' Sprawdź, czy którykolwiek klucz występuje więcej niż raz
+        For Each c In rng.Cells
+            If Application.WorksheetFunction.CountIf(rng, c.Value) > 1 Then
+                Validate_UniqueKeys = False
+                Exit Function
+            End If
+        Next c
     
+        Validate_UniqueKeys = True
     End Function
+
