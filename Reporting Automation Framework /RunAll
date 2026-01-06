@@ -25,6 +25,8 @@ Public Sub Run_All()
     '-------------------------
     ' 0) CONFIG & CHECK (definicja ścieżek i spradzenie plików)
     '-------------------------
+    Dim inputFolder As String
+    Dim requiredFiles As Variant
 
     inputFolder = INPUT_FOLDER
     requiredFiles = Array(INPUT_FILE_1)
