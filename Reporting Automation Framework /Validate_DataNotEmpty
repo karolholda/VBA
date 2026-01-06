@@ -5,5 +5,5 @@
 ' Test sprawdzający, czy dane nie są puste
 
     Private Function Validate_DataNotEmpty() As Boolean
-        Validate_DataNotEmpty = Application.WorksheetFunction.CountA(Sheets("Data").Cells) > 1
+        Validate_DataNotEmpty = Application.WorksheetFunction.CountA(Sheets(DATA_SHEET).Cells) > 1
     End Function
