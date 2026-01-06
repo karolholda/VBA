@@ -10,6 +10,12 @@ Public Sub Run_All()
     LogInfo "Run_All", "START", ""   ' 3) Zapisz do logu start procesu (LogInfo to Twoja funkcja logująca)
 
     '-------------------------
+    ' 0) CONFIG & CHECK (definicja ścieżek i spradzenie plików)
+    '-------------------------
+
+
+
+    '-------------------------
     ' 1) REFRESH (odśwież dane)
     '-------------------------
     If Not RefreshAllData() Then      ' 4) Uruchom odświeżanie danych; jeśli zwróci False -> refresh się nie udał
