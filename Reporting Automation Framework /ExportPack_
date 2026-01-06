@@ -1,6 +1,0 @@
-'===========================
-' Funkcja: ExportPack
-'===========================
-
-tworzy raporty (PDF/XLSX), zapisuje je w folderze OUT, publikuje do Teams/SharePoint i 
-bezpiecznie informuje pipeline o powodzeniu lub błędzie.

@@ -1,0 +1,7 @@
+'===========================
+' Funkcja: ExportPack_EnsureFolderExists
+'===========================
+
+sprawdza, czy folder wyjściowy istnieje, jesli nie to go towrzy
+
+    P
