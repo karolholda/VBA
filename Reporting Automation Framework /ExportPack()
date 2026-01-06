@@ -1,0 +1,47 @@
+'===========================
+' Funkcja: ExportPack
+'===========================
+
+tworzy raporty (PDF/XLSX), zapisuje je w folderze OUT, publikuje do Teams/SharePoint i 
+bezpiecznie informuje pipeline o powodzeniu lub błędzie.
+
+    Private Function ExportPack() As Boolean
+        On Error GoTo ErrHandler
+    
+        Dim outFolder As String
+        Dim publishFolder As String
+        Dim pdfPath As String
+        Dim xlsxPath As String
+    
+        LogInfo "ExportPack", "Export started", ""
+    
+' Folder wyjściowy (lokalny) obok pliku .xlsm
+        outFolder = ThisWorkbook.Path & "\OUT"
+        EnsureFolderExists outFolder
+        LogInfo "ExportPack", "Out folder ready", outFolder
+    
+' Eksport PDF + XLSX (funkcje mają zwrócić pełne ścieżki do plików)
+        pdfPath = ExportReportPDF(outFolder)
+        LogInfo "ExportPack", "PDF created", pdfPath
+    
+        xlsxPath = ExportReportXLSX(outFolder)
+        LogInfo "ExportPack", "XLSX created", xlsxPath
+    
+' Folder publikacji (OneDrive sync -> Teams/SharePoint)
+'    Uwaga: w VBA %USERNAME% się nie rozwija, używamy USERPROFILE
+        publishFolder = Environ$("USERPROFILE") & "\OneDrive - Firma\Teams\Raporty\"
+        EnsureFolderExists publishFolder
+        LogInfo "ExportPack", "Publish folder ready", publishFolder
+    
+' Publikacja: kopiowanie plików do folderu synchronizowanego
+        PublishToSharePointSyncFolder Array(pdfPath, xlsxPath), publishFolder
+        LogInfo "ExportPack", "Publish completed", "Files=2"
+    
+        ExportPack = True
+        Exit Function
+    
+    ErrHandler:
+        LogError "ExportPack", "Export/Publish error", _
+                 "Err " & Err.Number & ": " & Err.Description
+        ExportPack = False
+    End Function
