@@ -3,7 +3,7 @@
 '===========================
 
 ' RunValidations uruchamia wszystkie kontrole jakości danych, zatrzymuje pipeline przy pierwszym błędzie i 
-  informuje log, czy dane nadają się do eksportu.
+'  informuje log, czy dane nadają się do eksportu.
 
     Private Function RunValidations() As Boolean
         On Error GoTo ErrHandler
