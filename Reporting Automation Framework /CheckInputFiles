@@ -4,9 +4,8 @@
 ' Wymagania:
 ' - folderPath: ścieżka do folderu wejściowego (może być z "\" lub bez)
 ' - requiredFiles: tablica nazw plików, np. Array("a.xlsx", "b.csv")
-'
 ' Działanie:
-'  normalizuje folderPath (dopina "\")
+' normalizuje folderPath (dopina "\")
 ' sprawdza czy folder istnieje
 ' sprawdza czy każdy plik istnieje w tym folderze
 ' Jeśli czegoś brakuje -> Err.Raise (pipeline poleci do ErrHandler w Run_All)
