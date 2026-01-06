@@ -10,17 +10,16 @@
     
         Set ws = ThisWorkbook.Worksheets(DATA_SHEET)
     
-        ' Ostatni wiersz danych w kolumnie klucza
+' Ostatni wiersz danych w kolumnie klucza
         lastRow = ws.Cells(ws.Rows.Count, KEY_COL).End(xlUp).Row
     
-        ' Brak danych (tylko nagłówek) = FAIL
+' Brak danych (tylko nagłówek) = FAIL
         If lastRow <= HEADER_ROW Then
             Validate_NoBlankKeys = False
             Exit Function
         End If
     
-        ' Sprawdź, czy są puste klucze (bez nagłówka)
-        Validate_NoBlankKeys = _
-            Application.WorksheetFunction.CountBlank( _
-                ws.Range(KEY_COL & (HEADER_ROW + 1) & ":" & KEY_COL & lastRow)) = 0
+' Sprawdź, czy są puste klucze (bez nagłówka)
+Validate_NoBlankKeys = Application.WorksheetFunction.CountBlank(ws.Range(KEY_COL & (HEADER_ROW + 1) & ":" & KEY_COL & lastRow)) = 0
     End Function
+
