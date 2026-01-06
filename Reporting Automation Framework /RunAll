@@ -1,5 +1,5 @@
 '===========================
-' Module: modMain
+' Main
 '===========================
 Option Explicit   ' 0) Wymusza deklarowanie wszystkich zmiennych (chroni przed literówkami typu ActiceCell)
 
