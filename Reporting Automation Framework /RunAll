@@ -30,6 +30,7 @@ Public Sub Run_All()
     requiredFiles = Array(INPUT_FILE_1)
     
     CheckInputFiles inputFolder, requiredFiles
+    LogInfo "Run_All", "Input check passed", "Folder=" & inputFolder
 
     '-------------------------
     ' 1) REFRESH (odśwież dane)
