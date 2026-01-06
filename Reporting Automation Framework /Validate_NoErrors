@@ -9,7 +9,7 @@
         Dim rng As Range
         Dim cell As Range
     
-        Set ws = Sheets("Data")
+        Set ws = ThisWorkbook.Worksheets(DATA_SHEET)
     
 ' Określ obszar danych do sprawdzenia
         Set rng = ws.UsedRange
