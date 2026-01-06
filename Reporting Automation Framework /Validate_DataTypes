@@ -9,34 +9,34 @@
         Dim lastRow As Long
         Dim r As Long
     
-        Set ws = Sheets("Data")
+        Set ws = ThisWorkbook.Worksheets(DATA_SHEET)
     
-' Znajdź ostatni wiersz danych
-        lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+' Znajdź ostatni wiersz danych na podstawie kolumny klucza
+        lastRow = ws.Cells(ws.Rows.Count, KEY_COL).End(xlUp).Row
     
-' Brak danych = FAIL
-        If lastRow < 2 Then
+' Brak danych (tylko nagłówek) = FAIL
+        If lastRow <= HEADER_ROW Then
             Validate_DataTypes = False
             Exit Function
         End If
     
-' Sprawdź typy danych w każdym wierszu
-        For r = 2 To lastRow
+' Sprawdź typy danych w każdym wierszu (od pierwszego wiersza danych)
+        For r = HEADER_ROW + 1 To lastRow
     
-' A: klucz → musi być tekst
-            If Not VarType(ws.Cells(r, "A").Value) = vbString Then
+' KEY_COL: klucz musi być niepusty (po Trim) – zwykle traktujemy go jako tekst
+            If Trim$(CStr(ws.Cells(r, KEY_COL).Value)) = "" Then
                 Validate_DataTypes = False
                 Exit Function
             End If
     
-' B: data → musi być datą
-            If Not IsDate(ws.Cells(r, "B").Value) Then
+' DATE_COL: musi być datą
+            If Not IsDate(ws.Cells(r, DATE_COL).Value) Then
                 Validate_DataTypes = False
                 Exit Function
             End If
     
-' C: liczba → musi być liczbą
-            If Not IsNumeric(ws.Cells(r, "C").Value) Then
+' AMOUNT_COL: musi być liczbą
+            If Not IsNumeric(ws.Cells(r, AMOUNT_COL).Value) Then
                 Validate_DataTypes = False
                 Exit Function
             End If
