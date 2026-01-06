@@ -11,6 +11,8 @@ Option Explicit   ' 0) Wymusza deklarowanie wszystkich zmiennych (chroni przed l
     Private Const KEY_COL As String = "A"
     Private Const DATE_COL As String = "B"
     Private Const AMOUNT_COL As String = "C"   'dana wartość licznowa
+    Private Const INPUT_FOLDER As String = "C:\Data\IN\"
+    Private Const INPUT_FILE_1 As String = "nazwapliku.xlsx"
 
     '===========================
 
@@ -24,11 +26,8 @@ Public Sub Run_All()
     ' 0) CONFIG & CHECK (definicja ścieżek i spradzenie plików)
     '-------------------------
 
-    Dim inputFolder As String
-    Dim requiredFiles As Variant
-    
-    inputFolder = "C:\Data\IN\"
-    requiredFiles = Array("nazwapliku.xlsx")
+    inputFolder = INPUT_FOLDER
+    requiredFiles = Array(INPUT_FILE_1)
     
     CheckInputFiles inputFolder, requiredFiles
 
