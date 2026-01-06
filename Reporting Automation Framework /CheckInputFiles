@@ -1,0 +1,49 @@
+'===========================
+' Procedura: CheckInputFiles
+'===========================
+' Wymagania:
+' - folderPath: ścieżka do folderu wejściowego (może być z "\" lub bez)
+' - requiredFiles: tablica nazw plików, np. Array("a.xlsx", "b.csv")
+'
+' Działanie:
+'  normalizuje folderPath (dopina "\")
+' sprawdza czy folder istnieje
+' sprawdza czy każdy plik istnieje w tym folderze
+' Jeśli czegoś brakuje -> Err.Raise (pipeline poleci do ErrHandler w Run_All)
+
+    Public Sub CheckInputFiles(ByVal folderPath As String, ByVal requiredFiles As Variant)
+        Dim i As Long
+        Dim fullPath As String
+    
+' folderPath nie może być pusty
+        If Len(Trim$(folderPath)) = 0 Then
+            Err.Raise vbObjectError + 1000, "CheckInputFiles", "folderPath jest pusty."
+        End If
+    
+' Normalizacja: dopisz "\" na końcu jeśli brak
+        If Right$(folderPath, 1) <> "\" Then
+            folderPath = folderPath & "\"
+        End If
+    
+' Sprawdź czy folder istnieje
+        If Dir(folderPath, vbDirectory) = "" Then
+            Err.Raise vbObjectError + 1001, "CheckInputFiles", _
+                "Folder wejściowy nie istnieje:" & vbCrLf & folderPath
+        End If
+    
+' requiredFiles musi być tablicą
+        If Not IsArray(requiredFiles) Then
+            Err.Raise vbObjectError + 1002, "CheckInputFiles", _
+                "requiredFiles musi być tablicą. Użyj: Array(""plik1.xlsx"", ""plik2.csv"")"
+        End If
+    
+' Sprawdź każdy wymagany plik
+        For i = LBound(requiredFiles) To UBound(requiredFiles)
+            fullPath = folderPath & CStr(requiredFiles(i))
+    
+            If Dir(fullPath) = "" Then
+                Err.Raise vbObjectError + 1003, "CheckInputFiles", _
+                    "Brak wymaganego pliku:" & vbCrLf & fullPath
+            End If
+        Next i
+    End Sub
