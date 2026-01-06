@@ -10,7 +10,7 @@ Option Explicit   ' 0) Wymusza deklarowanie wszystkich zmiennych (chroni przed l
     Private Const HEADER_ROW As Long = 1
     Private Const KEY_COL As String = "A"
     Private Const DATE_COL As String = "B"
-    Private Const AMOUNT_COL As String = "C"
+    Private Const AMOUNT_COL As String = "C"   'dana wartość licznowa
 
     '===========================
 
