@@ -1,15 +1,26 @@
 '===========================
-' Funkcja: NoBlankKeys
+' Funkcja: Validate_NoBlankKeys
 '===========================
 
-' Test sprawdzający, czy są puste klucze
+' Sprawdza, czy w kolumnie kluczy nie ma pustych wartości
 
     Private Function Validate_NoBlankKeys() As Boolean
+        Dim ws As Worksheet
         Dim lastRow As Long
-        Dim DataSheetName As String
-        DataSheetName =  "Data"
-        lastRow = Sheets("Data").Cells(Rows.Count, "A").End(xlUp).Row
     
-        Validate_NoBlankKeys = Application.WorksheetFunction.CountBlank(Sheets("Data").Range("A2:A" & lastRow)) = 0
-
+        Set ws = ThisWorkbook.Worksheets(DATA_SHEET)
+    
+        ' Ostatni wiersz danych w kolumnie klucza
+        lastRow = ws.Cells(ws.Rows.Count, KEY_COL).End(xlUp).Row
+    
+        ' Brak danych (tylko nagłówek) = FAIL
+        If lastRow <= HEADER_ROW Then
+            Validate_NoBlankKeys = False
+            Exit Function
+        End If
+    
+        ' Sprawdź, czy są puste klucze (bez nagłówka)
+        Validate_NoBlankKeys = _
+            Application.WorksheetFunction.CountBlank( _
+                ws.Range(KEY_COL & (HEADER_ROW + 1) & ":" & KEY_COL & lastRow)) = 0
     End Function
