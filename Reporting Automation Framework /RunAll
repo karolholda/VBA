@@ -3,6 +3,17 @@
 '===========================
 Option Explicit   ' 0) Wymusza deklarowanie wszystkich zmiennych (chroni przed literówkami typu ActiceCell)
 
+    '===========================
+    ' KONFIGURACJA PIPELINE
+    '===========================
+    Private Const DATA_SHEET As String = "Data"
+    Private Const HEADER_ROW As Long = 1
+    Private Const KEY_COL As String = "A"
+    Private Const DATE_COL As String = "B"
+    Private Const AMOUNT_COL As String = "C"
+
+    '===========================
+
 Public Sub Run_All()
     On Error GoTo ErrHandler   ' 1) Jeśli gdziekolwiek w tej procedurze wystąpi błąd -> skocz do ErrHandler
 
